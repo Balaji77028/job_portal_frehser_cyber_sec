@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CyberHire — Fresher Cybersecurity Jobs & Internships</title>
+<title>CyFresh — Fresher Cybersecurity Jobs & Internships</title>
 <meta name="description" content="Discover 1000+ fresher-friendly cybersecurity jobs and internships aggregated from LinkedIn, Indeed, Naukri, Glassdoor & more. Auto-refreshes every 6 hours.">
 <meta name="keywords" content="cybersecurity jobs fresher, security analyst intern, penetration testing jobs, SOC analyst fresher, information security jobs 2025">
 <meta name="robots" content="index, follow">
-<meta property="og:title" content="CyberHire — Fresher Cybersecurity Jobs">
+<meta property="og:title" content="CyFresh — Fresher Cybersecurity Jobs">
 <meta property="og:description" content="1000+ fresher cybersecurity jobs aggregated from all major platforms. Auto-refreshed every 6 hours.">
 <meta property="og:type" content="website">
 <meta name="theme-color" content="#FF4500">
@@ -143,31 +143,37 @@ body {
 }
 
 .logo-mark {
-  width: 36px; height: 36px;
+  width: 38px; height: 38px;
   background: linear-gradient(135deg, var(--fire) 0%, var(--warm) 100%);
   border-radius: 10px;
   display: grid; place-items: center;
-  font-size: 18px;
-  box-shadow: var(--glow-sm);
+  box-shadow: var(--glow-sm), inset 0 1px 0 rgba(255,255,255,0.18);
   position: relative;
   overflow: hidden;
+  flex-shrink: 0;
 }
 
 .logo-mark::after {
   content: '';
   position: absolute; inset: 0;
-  background: linear-gradient(180deg, rgba(255,255,255,0.15) 0%, transparent 60%);
+  background: linear-gradient(180deg, rgba(255,255,255,0.18) 0%, transparent 55%);
   border-radius: 10px;
 }
+
+/* Custom SVG shield icon inside logo-mark */
+.logo-mark svg { position: relative; z-index: 1; }
 
 .logo-name {
   font-family: 'Syne', sans-serif;
   font-weight: 800;
-  font-size: 1.22rem;
-  letter-spacing: -0.02em;
+  font-size: 1.28rem;
+  letter-spacing: -0.03em;
   color: var(--text);
+  line-height: 1;
 }
 
+.logo-name .cy { color: var(--text); }
+.logo-name .fresh { color: var(--hot); }
 .logo-name em { color: var(--hot); font-style: normal; }
 
 .header-search {
@@ -1238,6 +1244,66 @@ footer {
 .footer-brand .logo-name { font-size: 1.1rem; margin-bottom: 8px; }
 .footer-desc { font-size: 0.82rem; color: var(--text-3); line-height: 1.6; max-width: 220px; }
 
+/* Creator tag */
+.footer-creator {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 0.9rem 1.5rem 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-top: 1px solid var(--border);
+}
+
+.creator-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--text-4);
+  letter-spacing: 0.04em;
+}
+
+.creator-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  text-decoration: none;
+  background: linear-gradient(135deg, rgba(255,69,0,0.08), rgba(255,140,66,0.05));
+  border: 1px solid rgba(255,107,26,0.2);
+  border-radius: 20px;
+  padding: 4px 12px 4px 5px;
+  transition: var(--transition);
+  color: var(--warm);
+}
+
+.creator-link:hover {
+  background: linear-gradient(135deg, rgba(255,69,0,0.16), rgba(255,140,66,0.1));
+  border-color: var(--hot);
+  box-shadow: 0 3px 14px rgba(255,69,0,0.2);
+  transform: translateY(-1px);
+}
+
+.creator-avatar {
+  width: 22px; height: 22px;
+  background: linear-gradient(135deg, var(--fire), var(--warm));
+  border-radius: 50%;
+  display: grid; place-items: center;
+  font-family: 'Syne', sans-serif;
+  font-size: 0.68rem;
+  font-weight: 800;
+  color: white;
+  flex-shrink: 0;
+}
+
+.creator-name {
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--warm);
+}
+
+.creator-link svg { opacity: 0.7; flex-shrink: 0; }
+
 .footer-col-title { font-family: 'Syne', sans-serif; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--hot); margin-bottom: 10px; }
 .footer-links { display: flex; flex-direction: column; gap: 7px; }
 .footer-link { font-size: 0.82rem; color: var(--text-3); text-decoration: none; transition: color 0.15s; }
@@ -1256,8 +1322,297 @@ footer {
 .footer-copy span { color: var(--warm); }
 
 /* ═══════════════════════════════════════════════
-   RESPONSIVE
+   HAMBURGER & MOBILE DRAWER
 ═══════════════════════════════════════════════ */
+.hamburger-btn {
+  display: none;
+  width: 38px; height: 38px;
+  background: var(--bg-panel);
+  border: 1px solid var(--border-2);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  flex-shrink: 0;
+  transition: var(--transition);
+  position: relative;
+}
+
+.hamburger-btn:hover { border-color: var(--hot); background: var(--bg-hover); }
+
+.hamburger-btn .bar {
+  width: 18px; height: 2px;
+  background: var(--text-2);
+  border-radius: 2px;
+  transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+  transform-origin: center;
+}
+
+.hamburger-btn.open .bar:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.hamburger-btn.open .bar:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.hamburger-btn.open .bar:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* Filter count badge on hamburger */
+.hamburger-badge {
+  position: absolute;
+  top: -5px; right: -5px;
+  width: 18px; height: 18px;
+  background: var(--fire);
+  color: white;
+  font-size: 0.6rem;
+  font-weight: 700;
+  font-family: 'DM Mono', monospace;
+  border-radius: 50%;
+  display: none;
+  place-items: center;
+  border: 2px solid var(--bg);
+  line-height: 1;
+}
+
+.hamburger-badge.show { display: grid; }
+
+/* Mobile drawer backdrop */
+.drawer-backdrop {
+  position: fixed; inset: 0; z-index: 398;
+  background: rgba(0,0,0,0.72);
+  backdrop-filter: blur(6px);
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.32s ease;
+}
+
+.drawer-backdrop.open { opacity: 1; pointer-events: all; }
+
+/* Mobile drawer panel */
+.mobile-drawer {
+  position: fixed;
+  top: 0; left: 0; bottom: 0;
+  width: min(320px, 88vw);
+  z-index: 399;
+  background: var(--bg-panel);
+  border-right: 1px solid var(--border-2);
+  display: flex; flex-direction: column;
+  transform: translateX(-100%);
+  transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+  box-shadow: 8px 0 40px rgba(0,0,0,0.5);
+}
+
+.mobile-drawer.open { transform: translateX(0); }
+
+.drawer-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1rem 1.2rem;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+  background: var(--bg-card);
+}
+
+.drawer-head-title {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800; font-size: 1rem;
+  display: flex; align-items: center; gap: 8px;
+}
+
+.drawer-head-title span { color: var(--hot); }
+
+.drawer-close {
+  width: 32px; height: 32px;
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-2);
+  cursor: pointer;
+  display: grid; place-items: center;
+  font-size: 1rem;
+  transition: var(--transition);
+  flex-shrink: 0;
+}
+
+.drawer-close:hover { background: rgba(255,69,0,0.15); color: var(--warm); border-color: rgba(255,69,0,0.3); }
+
+.drawer-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1rem;
+  display: flex; flex-direction: column;
+  gap: 10px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,107,26,0.2) transparent;
+}
+
+.drawer-footer {
+  padding: 1rem 1.2rem;
+  border-top: 1px solid var(--border);
+  flex-shrink: 0;
+  display: flex; gap: 8px;
+}
+
+.drawer-reset-btn {
+  flex: 1;
+  background: var(--bg-card);
+  border: 1px solid var(--border-2);
+  color: var(--text-2);
+  border-radius: var(--radius-sm);
+  padding: 10px;
+  font-family: 'Manrope', sans-serif;
+  font-weight: 600; font-size: 0.85rem;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.drawer-reset-btn:hover { border-color: var(--hot); color: var(--warm); }
+
+.drawer-apply-btn {
+  flex: 2;
+  background: linear-gradient(135deg, var(--fire), var(--hot));
+  color: white;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 10px;
+  font-family: 'Syne', sans-serif;
+  font-weight: 700; font-size: 0.88rem;
+  cursor: pointer;
+  transition: var(--transition);
+  box-shadow: 0 3px 14px rgba(255,69,0,0.35);
+}
+
+.drawer-apply-btn:hover { box-shadow: 0 5px 20px rgba(255,69,0,0.5); transform: translateY(-1px); }
+
+/* ═══════════════════════════════════════════════
+   SMART COMBO FILTERS
+═══════════════════════════════════════════════ */
+.combo-bar {
+  position: relative; z-index: 1;
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 0 1.5rem 1rem;
+}
+
+.combo-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.68rem;
+  color: var(--text-4);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 8px;
+  display: flex; align-items: center; gap: 6px;
+}
+
+.combo-label::before {
+  content: '';
+  display: inline-block;
+  width: 14px; height: 2px;
+  background: linear-gradient(90deg, var(--fire), transparent);
+  border-radius: 2px;
+}
+
+.combo-scroll {
+  display: flex; gap: 7px;
+  overflow-x: auto; scrollbar-width: none;
+  padding-bottom: 3px;
+}
+
+.combo-scroll::-webkit-scrollbar { display: none; }
+
+.combo-chip {
+  display: flex; align-items: center; gap: 6px;
+  background: linear-gradient(135deg, rgba(255,69,0,0.07), rgba(255,140,66,0.04));
+  border: 1px solid rgba(255,107,26,0.18);
+  border-radius: 20px;
+  padding: 7px 14px;
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-2);
+  cursor: pointer;
+  transition: var(--transition);
+  white-space: nowrap;
+  flex-shrink: 0;
+  user-select: none;
+  position: relative;
+}
+
+.combo-chip:hover {
+  background: linear-gradient(135deg, rgba(255,69,0,0.15), rgba(255,140,66,0.08));
+  border-color: rgba(255,107,26,0.4);
+  color: var(--glow);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(255,69,0,0.2);
+}
+
+.combo-chip.active {
+  background: linear-gradient(135deg, rgba(255,69,0,0.2), rgba(255,140,66,0.12));
+  border-color: var(--hot);
+  color: var(--glow);
+  box-shadow: 0 0 0 2px rgba(255,107,26,0.15), 0 4px 14px rgba(255,69,0,0.2);
+}
+
+.combo-chip-icon { font-size: 1rem; }
+
+.combo-chip-count {
+  background: rgba(255,107,26,0.2);
+  color: var(--warm);
+  font-family: 'DM Mono', monospace;
+  font-size: 0.62rem;
+  padding: 1px 6px;
+  border-radius: 8px;
+}
+
+/* Active filter summary pill */
+.active-filter-bar {
+  position: relative; z-index: 1;
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 0 1.5rem 0.6rem;
+  display: flex; align-items: center; gap: 6px;
+  flex-wrap: wrap;
+  min-height: 0;
+  transition: all 0.2s;
+}
+
+.active-pill {
+  display: inline-flex; align-items: center; gap: 5px;
+  background: rgba(255,69,0,0.1);
+  border: 1px solid rgba(255,69,0,0.3);
+  color: var(--warm);
+  font-size: 0.74rem;
+  font-weight: 600;
+  font-family: 'Manrope', sans-serif;
+  padding: 4px 10px 4px 10px;
+  border-radius: 20px;
+  animation: fadeSlideDown 0.2s ease;
+}
+
+.active-pill button {
+  background: none; border: none;
+  color: var(--warm); cursor: pointer;
+  font-size: 0.9rem; line-height: 1;
+  padding: 0; margin-left: 2px;
+  opacity: 0.7;
+  transition: opacity 0.15s;
+}
+
+.active-pill button:hover { opacity: 1; }
+
+.clear-all-btn {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--text-3);
+  background: none; border: none;
+  cursor: pointer;
+  text-decoration: underline;
+  transition: color 0.15s;
+  padding: 4px 6px;
+}
+
+.clear-all-btn:hover { color: var(--fire); }
+
+@media (max-width: 900px) {
+  .hamburger-btn { display: flex; }
+  .combo-bar { padding: 0 1rem 1rem; }
+  .active-filter-bar { padding: 0 1rem 0.6rem; }
+}
 @media (max-width: 1100px) {
   .layout { grid-template-columns: 220px 1fr; gap: 1rem; }
 }
@@ -1318,9 +1673,14 @@ footer {
 <!-- ═══ HEADER ═══ -->
 <header id="header" role="banner">
   <div class="header-inner">
-    <a href="#" class="logo" aria-label="CyberHire Home">
-      <div class="logo-mark" aria-hidden="true">🛡️</div>
-      <span class="logo-name">Cyber<em>Hire</em></span>
+    <a href="#" class="logo" aria-label="CyFresh Home">
+      <div class="logo-mark" aria-hidden="true">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2L3 6.5V12c0 4.97 3.76 9.16 9 10 5.24-.84 9-5.03 9-10V6.5L12 2z" fill="rgba(255,255,255,0.22)" stroke="white" stroke-width="1.5" stroke-linejoin="round"/>
+          <path d="M9 12l2 2 4-4" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <span class="logo-name"><span class="cy">Cy</span><span class="fresh">Fresh</span></span>
     </a>
 
     <div class="header-search" role="search">
@@ -1329,6 +1689,13 @@ footer {
     </div>
 
     <div class="header-right">
+      <!-- Hamburger for mobile sidebar -->
+      <button class="hamburger-btn" id="hamburgerBtn" onclick="toggleDrawer()" aria-label="Open filters" aria-expanded="false">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="hamburger-badge" id="hamburgerBadge"></span>
+      </button>
       <div class="live-chip" aria-live="polite">
         <div class="live-dot" aria-hidden="true"></div>
         <span id="timerDisplay">6:00:00</span>
@@ -1409,6 +1776,24 @@ footer {
   </div>
 </div>
 
+<!-- ═══ MOBILE DRAWER BACKDROP ═══ -->
+<div class="drawer-backdrop" id="drawerBackdrop" onclick="toggleDrawer()"></div>
+
+<!-- ═══ MOBILE DRAWER ═══ -->
+<div class="mobile-drawer" id="mobileDrawer" role="dialog" aria-modal="true" aria-label="Filters">
+  <div class="drawer-head">
+    <div class="drawer-head-title">🛡️ <span>Filter</span> Jobs</div>
+    <button class="drawer-close" onclick="toggleDrawer()" aria-label="Close filters">✕</button>
+  </div>
+  <div class="drawer-body" id="drawerBody">
+    <!-- Cloned sidebar content injected by JS -->
+  </div>
+  <div class="drawer-footer">
+    <button class="drawer-reset-btn" onclick="resetAllFilters()">↺ Reset All</button>
+    <button class="drawer-apply-btn" onclick="toggleDrawer()">Show Results →</button>
+  </div>
+</div>
+
 <!-- ═══ PLATFORM TABS ═══ -->
 <nav class="platform-bar" aria-label="Filter by platform">
   <div class="platform-scroll" id="platformTabs" role="tablist">
@@ -1449,6 +1834,52 @@ footer {
   <button class="fchip"        data-f="uk"          onclick="setType('uk',this)">🇬🇧 UK</button>
   <button class="fchip"        data-f="entry"       onclick="setType('entry',this)">✨ 0 Exp Required</button>
 </div>
+
+<!-- ═══ SMART COMBO FILTERS ═══ -->
+<div class="combo-bar">
+  <div class="combo-label">⚡ Smart Combos</div>
+  <div class="combo-scroll" id="comboScroll">
+    <button class="combo-chip" data-combo="intern-india" onclick="applyCombo('intern-india',this)">
+      <span class="combo-chip-icon">🎓🇮🇳</span> Internships in India <span class="combo-chip-count" id="cc-intern-india">0</span>
+    </button>
+    <button class="combo-chip" data-combo="remote-intern" onclick="applyCombo('remote-intern',this)">
+      <span class="combo-chip-icon">🌍🎓</span> Remote Internships <span class="combo-chip-count" id="cc-remote-intern">0</span>
+    </button>
+    <button class="combo-chip" data-combo="remote-ft" onclick="applyCombo('remote-ft',this)">
+      <span class="combo-chip-icon">🌍💼</span> Remote Full-time <span class="combo-chip-count" id="cc-remote-ft">0</span>
+    </button>
+    <button class="combo-chip" data-combo="india-ft" onclick="applyCombo('india-ft',this)">
+      <span class="combo-chip-icon">🇮🇳💼</span> Full-time India <span class="combo-chip-count" id="cc-india-ft">0</span>
+    </button>
+    <button class="combo-chip" data-combo="usa-remote" onclick="applyCombo('usa-remote',this)">
+      <span class="combo-chip-icon">🇺🇸🌍</span> USA Remote <span class="combo-chip-count" id="cc-usa-remote">0</span>
+    </button>
+    <button class="combo-chip" data-combo="uk-hybrid" onclick="applyCombo('uk-hybrid',this)">
+      <span class="combo-chip-icon">🇬🇧🏢</span> UK Hybrid <span class="combo-chip-count" id="cc-uk-hybrid">0</span>
+    </button>
+    <button class="combo-chip" data-combo="soc-entry" onclick="applyCombo('soc-entry',this)">
+      <span class="combo-chip-icon">🛡️✨</span> SOC — 0 Exp <span class="combo-chip-count" id="cc-soc-entry">0</span>
+    </button>
+    <button class="combo-chip" data-combo="pentest-intern" onclick="applyCombo('pentest-intern',this)">
+      <span class="combo-chip-icon">🔴🎓</span> Pentest Internships <span class="combo-chip-count" id="cc-pentest-intern">0</span>
+    </button>
+    <button class="combo-chip" data-combo="cloud-remote" onclick="applyCombo('cloud-remote',this)">
+      <span class="combo-chip-icon">☁️🌍</span> Cloud Security Remote <span class="combo-chip-count" id="cc-cloud-remote">0</span>
+    </button>
+    <button class="combo-chip" data-combo="new-today" onclick="applyCombo('new-today',this)">
+      <span class="combo-chip-icon">🔥📅</span> Posted Today <span class="combo-chip-count" id="cc-new-today">0</span>
+    </button>
+    <button class="combo-chip" data-combo="india-intern-naukri" onclick="applyCombo('india-intern-naukri',this)">
+      <span class="combo-chip-icon">🇮🇳🎓🔍</span> Naukri Internships <span class="combo-chip-count" id="cc-india-intern-naukri">0</span>
+    </button>
+    <button class="combo-chip" data-combo="linkedin-ft" onclick="applyCombo('linkedin-ft',this)">
+      <span class="combo-chip-icon">💼🔗</span> LinkedIn Full-time <span class="combo-chip-count" id="cc-linkedin-ft">0</span>
+    </button>
+  </div>
+</div>
+
+<!-- ═══ ACTIVE FILTER PILLS ═══ -->
+<div class="active-filter-bar" id="activeFilterBar"></div>
 
 <!-- ═══ RESULTS BAR ═══ -->
 <div class="results-bar">
@@ -1561,8 +1992,13 @@ footer {
   <div class="footer-inner">
     <div class="footer-brand">
       <div class="logo" style="margin-bottom:8px">
-        <div class="logo-mark" style="width:28px;height:28px;font-size:14px">🛡️</div>
-        <span class="logo-name">Cyber<em>Hire</em></span>
+        <div class="logo-mark" style="width:30px;height:30px">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2L3 6.5V12c0 4.97 3.76 9.16 9 10 5.24-.84 9-5.03 9-10V6.5L12 2z" fill="rgba(255,255,255,0.22)" stroke="white" stroke-width="1.5" stroke-linejoin="round"/>
+            <path d="M9 12l2 2 4-4" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <span class="logo-name" style="font-size:1.1rem"><span class="cy">Cy</span><span class="fresh">Fresh</span></span>
       </div>
       <p class="footer-desc">The #1 job portal for cybersecurity freshers. Aggregated from 6+ platforms, refreshed every 6 hours.</p>
     </div>
@@ -1595,9 +2031,19 @@ footer {
       </div>
     </div>
   </div>
+
   <div class="footer-bottom">
-    <p class="footer-copy">© 2025 <span>CyberHire</span>. Not affiliated with LinkedIn, Indeed, Naukri, Glassdoor, Internshala or Wellfound.</p>
+    <p class="footer-copy">© 2025 <span>CyFresh</span>. Not affiliated with LinkedIn, Indeed, Naukri, Glassdoor, Internshala or Wellfound.</p>
     <p class="footer-copy">Built for cybersecurity <span>freshers</span>. Auto-refreshes every <span>6 hours</span>.</p>
+  </div>
+
+  <div class="footer-creator">
+    <span class="creator-label">Designed &amp; built by</span>
+    <a href="https://balaji-s-protfolio-alpha.vercel.app/" target="_blank" rel="noopener" class="creator-link">
+      <span class="creator-avatar">B</span>
+      <span class="creator-name">Balaji Bodicharla</span>
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+    </a>
   </div>
 </footer>
 
@@ -1656,6 +2102,9 @@ const state = {
   nextRefresh: Date.now() + REFRESH_INTERVAL,
   theme: 'dark',
   searchDebounce: null,
+  activeCombo: null,
+  comboRegion: null,
+  comboWorkMode: null,
 };
 
 /* ══════════════════════════════════
@@ -1858,6 +2307,10 @@ function applyFilters() {
   else if (state.type === 'uk') result = result.filter(j => j.region === 'uk');
   else if (state.type === 'entry') result = result.filter(j => j.expRequired === '0 years' || j.expRequired === '0–1 year');
 
+  // Combo-specific extra filters (region + workMode layered on top of type)
+  if (state.comboRegion)   result = result.filter(j => j.region   === state.comboRegion);
+  if (state.comboWorkMode) result = result.filter(j => j.workMode === state.comboWorkMode);
+
   if (state.date === '24h') result = result.filter(j => j.daysBack <= 1);
   else if (state.date === '3d') result = result.filter(j => j.daysBack <= 3);
   else if (state.date === '7d') result = result.filter(j => j.daysBack <= 7);
@@ -1902,6 +2355,8 @@ function render() {
   renderPagination();
   updateHeroStats();
   updateSavedPanel();
+  renderActiveFilterPills();
+  updateComboCounts();
 }
 
 function renderJobs() {
@@ -2771,8 +3226,278 @@ function subscribeAlert() {
 }
 
 /* ══════════════════════════════════
-   ANALYTICS (stub)
+   MOBILE DRAWER
 ══════════════════════════════════ */
+let drawerOpen = false;
+
+function toggleDrawer() {
+  drawerOpen = !drawerOpen;
+  const drawer   = document.getElementById('mobileDrawer');
+  const backdrop = document.getElementById('drawerBackdrop');
+  const btn      = document.getElementById('hamburgerBtn');
+
+  drawer.classList.toggle('open', drawerOpen);
+  backdrop.classList.toggle('open', drawerOpen);
+  btn.classList.toggle('open', drawerOpen);
+  btn.setAttribute('aria-expanded', String(drawerOpen));
+  document.body.style.overflow = drawerOpen ? 'hidden' : '';
+
+  if (drawerOpen) buildDrawerContent();
+}
+
+function buildDrawerContent() {
+  // Clone the desktop sidebar HTML into the drawer
+  const sidebar = document.querySelector('.sidebar');
+  const drawerBody = document.getElementById('drawerBody');
+  if (!sidebar || !drawerBody) return;
+  // Deep clone and re-wire
+  const clone = sidebar.querySelector('.sidebar-inner').cloneNode(true);
+  // Remove IDs that would conflict (make them unique with -d suffix)
+  clone.querySelectorAll('[id]').forEach(el => {
+    el.id = el.id + '-d';
+  });
+  // Re-wire onclick attributes
+  clone.querySelectorAll('[onclick]').forEach(el => {
+    // Already functional since they call global functions — just update IDs in args
+    // Most are fine; checkboxes trigger global toggleRoleFilter
+  });
+  drawerBody.innerHTML = '';
+  drawerBody.appendChild(clone);
+  // Sync active states from current state
+  syncDrawerActiveStates();
+}
+
+function syncDrawerActiveStates() {
+  const drawerBody = document.getElementById('drawerBody');
+  if (!drawerBody) return;
+  // Sync date items
+  drawerBody.querySelectorAll('.sb-item').forEach(item => {
+    item.classList.remove('active');
+  });
+  // Highlight current date
+  const dateMap = { 'any': 0, '24h': 1, '3d': 2, '7d': 3, '14d': 4 };
+  const dateIdx = dateMap[state.date] ?? 0;
+  const dateItems = drawerBody.querySelectorAll('#datePostedCard-d .sb-item');
+  if (dateItems[dateIdx]) dateItems[dateIdx].classList.add('active');
+  // Highlight current exp
+  const expMap = { 'any': 0, '0': 1, '1': 2, '2': 3 };
+  const expIdx = expMap[state.exp] ?? 0;
+  const expItems = drawerBody.querySelectorAll('#experienceCard-d .sb-item');
+  if (expItems[expIdx]) expItems[expIdx].classList.add('active');
+  // Re-wire onclick for drawer items
+  drawerBody.querySelectorAll('#datePostedCard-d .sb-item').forEach((item, i) => {
+    const vals = ['any','24h','3d','7d','14d'];
+    item.onclick = () => { setDate(vals[i], item); syncDrawerActiveStates(); };
+  });
+  drawerBody.querySelectorAll('#experienceCard-d .sb-item').forEach((item, i) => {
+    const vals = ['any','0','1','2'];
+    item.onclick = () => { setExp(vals[i], item); syncDrawerActiveStates(); };
+  });
+  // Sync checkboxes for role filters
+  drawerBody.querySelectorAll('.sb-check').forEach(cb => {
+    const roleName = cb.getAttribute('onchange')?.match(/'([^']+)'/)?.[1] || '';
+    cb.checked = state.roleFilters.has(roleName);
+    cb.onchange = () => toggleRoleFilter(roleName, cb);
+  });
+}
+
+/* ══════════════════════════════════
+   ACTIVE FILTER PILLS
+══════════════════════════════════ */
+const FILTER_LABELS = {
+  // type
+  'internship':  '🎓 Internship',
+  'full-time':   '💼 Full-time',
+  'remote':      '🌍 Remote',
+  'hybrid':      '🏢 Hybrid',
+  'india':       '🇮🇳 India',
+  'usa':         '🇺🇸 USA',
+  'uk':          '🇬🇧 UK',
+  'entry':       '✨ 0 Exp Required',
+  // date
+  '24h':  '📅 Last 24h',
+  '3d':   '📅 Last 3 days',
+  '7d':   '📅 Last 7 days',
+  '14d':  '📅 Last 14 days',
+  // exp
+  '0':    '⭐ 0 yrs exp',
+  '1':    '⭐ 0–1 yr exp',
+  '2':    '⭐ 0–2 yrs exp',
+};
+
+function renderActiveFilterPills() {
+  const bar = document.getElementById('activeFilterBar');
+  if (!bar) return;
+
+  const pills = [];
+  if (state.type !== 'all')   pills.push({ label: FILTER_LABELS[state.type]   || state.type,   key: 'type' });
+  if (state.source !== 'all') pills.push({ label: '🌐 ' + state.source,                         key: 'source' });
+  if (state.date !== 'any')   pills.push({ label: FILTER_LABELS[state.date]   || state.date,    key: 'date' });
+  if (state.exp !== 'any')    pills.push({ label: FILTER_LABELS[state.exp]    || state.exp,     key: 'exp' });
+  if (state.search)           pills.push({ label: '🔍 "' + state.search + '"',                  key: 'search' });
+  state.roleFilters.forEach(role => pills.push({ label: '🎯 ' + role, key: 'role:' + role }));
+  if (state.activeCombo)      pills.push({ label: '⚡ ' + state.activeCombo,                    key: 'combo' });
+
+  if (pills.length === 0) { bar.innerHTML = ''; updateHamburgerBadge(0); return; }
+
+  bar.innerHTML = pills.map((p, i) => `
+    <span class="active-pill">
+      ${escHtml(p.label)}
+      <button onclick="clearOnePill(${i})" aria-label="Remove filter">×</button>
+    </span>
+  `).join('') + `<button class="clear-all-btn" onclick="resetAllFilters()">Clear all</button>`;
+
+  // Store pill keys so clearOnePill can resolve them
+  bar._pillKeys = pills.map(p => p.key);
+  updateHamburgerBadge(pills.length);
+}
+
+function clearOnePill(idx) {
+  const bar = document.getElementById('activeFilterBar');
+  const key = bar && bar._pillKeys && bar._pillKeys[idx];
+  if (!key) return;
+
+  if (key === 'type')   { setType('all', document.querySelector('[data-f="all"]')); }
+  else if (key === 'source') { setSource('all', document.querySelector('[data-src="all"]')); }
+  else if (key === 'date')   { const el = document.querySelector('#datePostedCard .sb-item'); if (el) setDate('any', el); }
+  else if (key === 'exp')    { const el = document.querySelector('#experienceCard .sb-item');  if (el) setExp('any', el); }
+  else if (key === 'search') { state.search = ''; const inp = document.getElementById('searchInput'); if (inp) inp.value = ''; render(); }
+  else if (key === 'combo')  { state.activeCombo = null; resetAllFilters(); }
+  else if (key.startsWith('role:')) { const role = key.slice(5); state.roleFilters.delete(role); render(); }
+}
+
+function updateHamburgerBadge(count) {
+  const badge = document.getElementById('hamburgerBadge');
+  if (!badge) return;
+  if (count > 0) {
+    badge.textContent = count;
+    badge.classList.add('show');
+  } else {
+    badge.classList.remove('show');
+  }
+}
+
+/* ══════════════════════════════════
+   COMBO FILTERS
+══════════════════════════════════ */
+const COMBOS = {
+  'intern-india':       { type: 'internship', region: 'india', source: 'all', date: 'any', exp: 'any', role: null },
+  'remote-intern':      { type: 'internship', workMode: 'Remote', source: 'all', date: 'any', exp: 'any', role: null },
+  'remote-ft':          { type: 'remote',  source: 'all', date: 'any', exp: 'any', role: null },
+  'india-ft':           { type: 'full-time', region: 'india', source: 'all', date: 'any', exp: 'any', role: null },
+  'usa-remote':         { type: 'remote', region: 'usa', source: 'all', date: 'any', exp: 'any', role: null },
+  'uk-hybrid':          { type: 'hybrid', region: 'uk', source: 'all', date: 'any', exp: 'any', role: null },
+  'soc-entry':          { type: 'entry', source: 'all', date: 'any', exp: 'any', role: 'SOC Analyst' },
+  'pentest-intern':     { type: 'internship', source: 'all', date: 'any', exp: 'any', role: 'Penetration Testing' },
+  'cloud-remote':       { type: 'remote', source: 'all', date: 'any', exp: 'any', role: 'Cloud Security' },
+  'new-today':          { type: 'all', source: 'all', date: '24h', exp: 'any', role: null },
+  'india-intern-naukri':{ type: 'internship', region: 'india', source: 'Naukri', date: 'any', exp: 'any', role: null },
+  'linkedin-ft':        { type: 'full-time', source: 'LinkedIn', date: 'any', exp: 'any', role: null },
+};
+
+// Extended filter function that handles combo's region/workMode on top of type
+function applyCombo(id, el) {
+  const combo = COMBOS[id];
+  if (!combo) return;
+
+  // Toggle off if already active
+  if (state.activeCombo === id) {
+    state.activeCombo = null;
+    el.classList.remove('active');
+    resetAllFilters(true); // silent reset
+    return;
+  }
+
+  // Deactivate all other combo chips
+  document.querySelectorAll('.combo-chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  state.activeCombo = id;
+
+  // Apply the combo's filter state
+  state.type   = combo.type || 'all';
+  state.source = combo.source || 'all';
+  state.date   = combo.date || 'any';
+  state.exp    = combo.exp || 'any';
+  state.comboRegion   = combo.region || null;
+  state.comboWorkMode = combo.workMode || null;
+  state.roleFilters.clear();
+  if (combo.role) state.roleFilters.add(combo.role);
+
+  // Sync top filter chips UI
+  document.querySelectorAll('.fchip').forEach(c => c.classList.remove('active'));
+  const typeChip = document.querySelector(`[data-f="${state.type}"]`);
+  if (typeChip) typeChip.classList.add('active');
+
+  // Sync source tabs UI
+  document.querySelectorAll('.ptab').forEach(t => { t.classList.remove('active'); t.setAttribute('aria-selected','false'); });
+  const srcTab = document.querySelector(`[data-src="${state.source}"]`);
+  if (srcTab) { srcTab.classList.add('active'); srcTab.setAttribute('aria-selected','true'); }
+
+  render();
+}
+
+function countCombo(id) {
+  const combo = COMBOS[id];
+  if (!combo) return 0;
+  return state.jobs.filter(j => {
+    if (combo.type === 'internship' && j.jobType !== 'Internship') return false;
+    if (combo.type === 'full-time'  && j.jobType !== 'Full-time')  return false;
+    if (combo.type === 'remote'     && j.workMode !== 'Remote')    return false;
+    if (combo.type === 'hybrid'     && j.workMode !== 'Hybrid')    return false;
+    if (combo.type === 'entry'      && j.expRequired !== '0 years' && j.expRequired !== '0–1 year') return false;
+    if (combo.region   && j.region   !== combo.region)   return false;
+    if (combo.workMode && j.workMode !== combo.workMode) return false;
+    if (combo.source && combo.source !== 'all' && j.source !== combo.source) return false;
+    if (combo.date === '24h' && j.daysBack > 1) return false;
+    if (combo.role && j.role !== combo.role) return false;
+    return true;
+  }).length;
+}
+
+function updateComboCounts() {
+  Object.keys(COMBOS).forEach(id => {
+    const el = document.getElementById('cc-' + id);
+    if (el) el.textContent = countCombo(id);
+  });
+}
+
+/* ══════════════════════════════════
+   RESET ALL FILTERS
+══════════════════════════════════ */
+function resetAllFilters(silent = false) {
+  state.type   = 'all';
+  state.source = 'all';
+  state.date   = 'any';
+  state.exp    = 'any';
+  state.search = '';
+  state.roleFilters.clear();
+  state.activeCombo    = null;
+  state.comboRegion    = null;
+  state.comboWorkMode  = null;
+
+  // Reset UI chips
+  document.querySelectorAll('.fchip').forEach(c => c.classList.remove('active'));
+  const allChip = document.querySelector('[data-f="all"]');
+  if (allChip) allChip.classList.add('active');
+
+  document.querySelectorAll('.ptab').forEach(t => { t.classList.remove('active'); t.setAttribute('aria-selected','false'); });
+  const allTab = document.querySelector('[data-src="all"]');
+  if (allTab) { allTab.classList.add('active'); allTab.setAttribute('aria-selected','true'); }
+
+  document.querySelectorAll('.combo-chip').forEach(c => c.classList.remove('active'));
+  document.querySelectorAll('#roleFilters .sb-check').forEach(c => c.checked = false);
+
+  const searchInput = document.getElementById('searchInput');
+  if (searchInput) searchInput.value = '';
+
+  // Reset date/exp sidebar active states
+  const anyDate = document.querySelector('#datePostedCard .sb-item');
+  if (anyDate) { document.querySelectorAll('#datePostedCard .sb-item').forEach(s => s.classList.remove('active')); anyDate.classList.add('active'); }
+  const anyExp = document.querySelector('#experienceCard .sb-item');
+  if (anyExp) { document.querySelectorAll('#experienceCard .sb-item').forEach(s => s.classList.remove('active')); anyExp.classList.add('active'); }
+
+  if (!silent) render();
+}
 function trackApply(jobId) {
   const job = state.jobs.find(j => j.id === jobId);
   if (!job) return;
@@ -2803,6 +3528,7 @@ document.addEventListener('keydown', (e) => {
     closeModal();
     const panel = document.getElementById('savedPanel');
     if (panel.classList.contains('open')) toggleSaved();
+    if (drawerOpen) toggleDrawer();
   }
   if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
     e.preventDefault();
