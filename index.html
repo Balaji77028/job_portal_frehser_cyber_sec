@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CyFresh — Fresher Cybersecurity Jobs & Internships</title>
 <meta name="description" content="Discover 1000+ fresher-friendly cybersecurity jobs and internships aggregated from LinkedIn, Indeed, Naukri, Glassdoor & more. Auto-refreshes every 6 hours.">
-<meta name="keywords" content="cybersecurity jobs fresher, security analyst intern, penetration testing jobs, SOC analyst fresher, information security jobs 2026">
+<meta name="keywords" content="cybersecurity jobs fresher, security analyst intern, penetration testing jobs, SOC analyst fresher, information security jobs 2025">
 <meta name="robots" content="index, follow">
 <meta property="og:title" content="CyFresh — Fresher Cybersecurity Jobs">
 <meta property="og:description" content="1000+ fresher cybersecurity jobs aggregated from all major platforms. Auto-refreshed every 6 hours.">
@@ -1608,6 +1608,121 @@ footer {
 
 .clear-all-btn:hover { color: var(--fire); }
 
+/* ═══════════════════════════════════════════════
+   SMART SEARCH DROPDOWN
+═══════════════════════════════════════════════ */
+.search-wrap {
+  position: relative;
+  flex: 1;
+  max-width: 480px;
+}
+
+.search-dropdown {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0; right: 0;
+  background: var(--bg-panel);
+  border: 1px solid var(--border-2);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg), 0 0 0 1px rgba(255,107,26,0.08);
+  z-index: 500;
+  overflow: hidden;
+  display: none;
+  animation: dropIn 0.18s cubic-bezier(0.4,0,0.2,1);
+  max-height: 520px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,107,26,0.2) transparent;
+}
+
+@keyframes dropIn {
+  from { opacity:0; transform:translateY(-6px) scale(0.98); }
+  to   { opacity:1; transform:translateY(0) scale(1); }
+}
+
+.search-dropdown.show { display: block; }
+
+.sd-section-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.62rem; color: var(--text-4);
+  text-transform: uppercase; letter-spacing: 0.1em;
+  padding: 10px 14px 5px;
+}
+
+.sd-job-row {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 14px; cursor: pointer; transition: background 0.12s;
+}
+.sd-job-row:hover, .sd-job-row.focused { background: var(--bg-hover); }
+
+.sd-job-icon {
+  width: 32px; height: 32px;
+  background: linear-gradient(135deg, var(--fire), var(--warm));
+  border-radius: 8px; display: grid; place-items: center;
+  font-family: 'Syne', sans-serif; font-size: 0.65rem; font-weight: 800;
+  color: white; flex-shrink: 0;
+}
+
+.sd-job-info { min-width:0; flex:1; }
+.sd-job-title { font-size:0.82rem; font-weight:600; color:var(--text); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.sd-job-meta  { font-size:0.71rem; color:var(--text-3); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.sd-job-badge { font-family:'DM Mono',monospace; font-size:0.6rem; color:var(--warm); background:rgba(255,140,66,0.12); padding:2px 7px; border-radius:6px; flex-shrink:0; }
+
+.sd-company-card {
+  margin: 8px 10px;
+  background: linear-gradient(135deg, rgba(255,69,0,0.06), rgba(255,140,66,0.03));
+  border: 1px solid rgba(255,107,26,0.18);
+  border-radius: var(--radius-md); overflow: hidden;
+}
+
+.sd-company-header {
+  display:flex; align-items:center; gap:12px;
+  padding: 12px 14px 10px;
+  border-bottom: 1px solid rgba(255,107,26,0.1);
+}
+
+.sd-company-logo {
+  width:44px; height:44px;
+  background: linear-gradient(135deg, var(--fire), var(--warm));
+  border-radius:10px; display:grid; place-items:center;
+  font-family:'Syne',sans-serif; font-size:1.05rem; font-weight:800;
+  color:white; flex-shrink:0;
+  box-shadow: 0 3px 10px rgba(255,69,0,0.3);
+}
+
+.sd-company-name { font-family:'Syne',sans-serif; font-size:0.95rem; font-weight:700; color:var(--text); }
+.sd-company-type { font-size:0.72rem; color:var(--text-3); margin-top:2px; }
+
+.sd-company-desc {
+  padding: 10px 14px;
+  font-size: 0.78rem; color: var(--text-2); line-height:1.55;
+  border-bottom: 1px solid rgba(255,107,26,0.08);
+}
+.sd-company-desc.loading { display:flex; align-items:center; gap:8px; color:var(--text-3); }
+
+.sd-spinner {
+  width:14px; height:14px;
+  border:2px solid rgba(255,107,26,0.2); border-top-color:var(--hot);
+  border-radius:50%; animation:spin 0.7s linear infinite; flex-shrink:0;
+}
+
+.sd-company-links {
+  display:flex; gap:6px; padding:10px 14px; flex-wrap:wrap;
+}
+
+.sd-link {
+  display:inline-flex; align-items:center; gap:5px;
+  background:var(--bg-card); border:1px solid var(--border-2);
+  border-radius:20px; padding:5px 11px;
+  font-size:0.73rem; font-weight:600; color:var(--text-2);
+  text-decoration:none; transition:var(--transition); cursor:pointer;
+}
+.sd-link:hover { border-color:var(--hot); color:var(--warm); background:rgba(255,107,26,0.08); }
+
+.sd-empty { padding:16px 14px; font-size:0.8rem; color:var(--text-3); text-align:center; }
+.sd-divider { height:1px; background:var(--border); margin:4px 0; }
+.sd-footer { padding:7px 14px; font-family:'DM Mono',monospace; font-size:0.62rem; color:var(--text-4); text-align:center; }
+
 @media (max-width: 900px) {
   .hamburger-btn { display: flex; }
   .combo-bar { padding: 0 1rem 1rem; }
@@ -1683,9 +1798,10 @@ footer {
       <span class="logo-name"><span class="cy">Cy</span><span class="fresh">Fresh</span></span>
     </a>
 
-    <div class="header-search" role="search">
+    <div class="header-search search-wrap" role="search">
       <svg class="header-search-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-      <input type="search" id="searchInput" placeholder="Search roles, skills, companies..." aria-label="Search jobs" oninput="debounceSearch()" autocomplete="off">
+      <input type="search" id="searchInput" placeholder="Search jobs, skills, companies..." aria-label="Search jobs" oninput="debounceSearch()" onfocus="onSearchFocus()" autocomplete="off" aria-autocomplete="list" aria-controls="searchDropdown" aria-haspopup="listbox">
+      <div class="search-dropdown" id="searchDropdown" role="listbox"></div>
     </div>
 
     <div class="header-right">
@@ -2033,7 +2149,7 @@ footer {
   </div>
 
   <div class="footer-bottom">
-    <p class="footer-copy">© 2026 <span>CyFresh</span>. Not affiliated with LinkedIn, Indeed, Naukri, Glassdoor, Internshala or Wellfound.</p>
+    <p class="footer-copy">© 2025 <span>CyFresh</span>. Not affiliated with LinkedIn, Indeed, Naukri, Glassdoor, Internshala or Wellfound.</p>
     <p class="footer-copy">Built for cybersecurity <span>freshers</span>. Auto-refreshes every <span>6 hours</span>.</p>
   </div>
 
@@ -2101,7 +2217,6 @@ const state = {
   roleFilters: new Set(),
   nextRefresh: Date.now() + REFRESH_INTERVAL,
   theme: 'dark',
-  searchDebounce: null,
   activeCombo: null,
   comboRegion: null,
   comboWorkMode: null,
@@ -2278,6 +2393,13 @@ function loadState() {
     if (saved.theme) state.theme = saved.theme;
     if (saved.apiKey) document.getElementById('adzunaKey').value = saved.apiKey;
     if (saved.apiId) document.getElementById('adzunaId').value = saved.apiId;
+    // Restore the refresh timer — only use it if it's still in the future
+    if (saved.nextRefresh && saved.nextRefresh > Date.now()) {
+      state.nextRefresh = saved.nextRefresh;
+    } else {
+      // Timer already expired while page was closed — schedule a fresh interval
+      state.nextRefresh = Date.now() + REFRESH_INTERVAL;
+    }
   } catch(e) {}
 }
 
@@ -2286,6 +2408,7 @@ function saveState() {
     localStorage.setItem(STORAGE_KEY, JSON.stringify({
       savedJobs: [...state.saved],
       theme: state.theme,
+      nextRefresh: state.nextRefresh,
     }));
   } catch(e) {}
 }
@@ -2842,13 +2965,282 @@ function clearRoleFilters() {
   render();
 }
 
-function debounceSearch() {
-  clearTimeout(state.searchDebounce);
-  state.searchDebounce = setTimeout(() => {
-    state.search = document.getElementById('searchInput').value.trim();
-    render();
-  }, 280);
+/* ══════════════════════════════════
+   SMART SEARCH ENGINE
+══════════════════════════════════ */
+let searchDebounceTimer = null;
+let companyFetchCache = {};   // company name → fetched data
+let activeCompanyFetch = null;
+
+function onSearchFocus() {
+  const q = document.getElementById('searchInput').value.trim();
+  if (q.length >= 2) showSearchDropdown(q);
 }
+
+function debounceSearch() {
+  clearTimeout(searchDebounceTimer);
+  const q = document.getElementById('searchInput').value.trim();
+
+  if (!q) {
+    closeSearchDropdown();
+    state.search = '';
+    render();
+    return;
+  }
+
+  // Instantly filter jobs
+  state.search = q;
+  render();
+
+  // Show dropdown after 180ms
+  searchDebounceTimer = setTimeout(() => showSearchDropdown(q), 180);
+}
+
+function showSearchDropdown(q) {
+  if (q.length < 2) { closeSearchDropdown(); return; }
+  const dropdown = document.getElementById('searchDropdown');
+  dropdown.classList.add('show');
+
+  // Detect if query looks like a company name vs a job keyword
+  const isCompanyQuery = detectCompanyIntent(q);
+  if (isCompanyQuery) {
+    renderCompanyCard(q, dropdown);
+  } else {
+    renderJobSuggestions(q, dropdown);
+  }
+}
+
+function closeSearchDropdown() {
+  const dropdown = document.getElementById('searchDropdown');
+  if (dropdown) { dropdown.classList.remove('show'); dropdown.innerHTML = ''; }
+}
+
+// Heuristic: if query matches a company name in jobs OR looks like a proper noun (capital first letter, no space OR 1-2 words, no role keywords)
+function detectCompanyIntent(q) {
+  const roleKeywords = ['analyst','engineer','intern','developer','security','pentest','soc','cloud','grc','threat','compliance','forensic','manager','specialist','consultant','officer'];
+  const lower = q.toLowerCase();
+  const hasRoleKeyword = roleKeywords.some(k => lower.includes(k));
+  if (hasRoleKeyword) return false;
+
+  // Check if query matches a known company in our job list
+  const matchedCompanies = [...new Set(state.jobs
+    .filter(j => j.company.toLowerCase().includes(lower))
+    .map(j => j.company)
+  )];
+  if (matchedCompanies.length > 0 && matchedCompanies.length <= 4) return true;
+
+  // Treat as company if it's 1–3 words, all capitalised first letters, no role keywords
+  const words = q.trim().split(/\s+/);
+  if (words.length <= 3 && words.every(w => /^[A-Z]/.test(w))) return true;
+
+  return false;
+}
+
+/* ─── Job suggestions (quick list) ─── */
+function renderJobSuggestions(q, dropdown) {
+  const lower = q.toLowerCase();
+  const matches = state.jobs
+    .filter(j =>
+      j.title.toLowerCase().includes(lower) ||
+      j.company.toLowerCase().includes(lower) ||
+      j.role.toLowerCase().includes(lower) ||
+      j.tags.some(t => t.toLowerCase().includes(lower))
+    )
+    .slice(0, 7);
+
+  // Unique companies matching query
+  const companies = [...new Set(
+    state.jobs.filter(j => j.company.toLowerCase().includes(lower)).map(j => j.company)
+  )].slice(0, 3);
+
+  let html = '';
+
+  if (companies.length > 0) {
+    html += `<div class="sd-section-label">🏢 Companies</div>`;
+    companies.forEach(co => {
+      const count = state.jobs.filter(j => j.company === co).length;
+      html += `
+        <div class="sd-job-row" onclick="selectCompanyFromDropdown('${escHtml(co)}')">
+          <div class="sd-job-icon">${escHtml(co.slice(0,2).toUpperCase())}</div>
+          <div class="sd-job-info">
+            <div class="sd-job-title">${escHtml(co)}</div>
+            <div class="sd-job-meta">${count} job${count !== 1 ? 's' : ''} available</div>
+          </div>
+          <span class="sd-job-badge">Company ↗</span>
+        </div>`;
+    });
+    if (matches.length > 0) html += `<div class="sd-divider"></div>`;
+  }
+
+  if (matches.length > 0) {
+    html += `<div class="sd-section-label">💼 Jobs (${state.filtered.length} total)</div>`;
+    matches.forEach(job => {
+      html += `
+        <div class="sd-job-row" onclick="selectJobFromDropdown('${job.id}')">
+          <div class="sd-job-icon">${escHtml(job.companyShort)}</div>
+          <div class="sd-job-info">
+            <div class="sd-job-title">${highlight(escHtml(job.title), q)}</div>
+            <div class="sd-job-meta">${escHtml(job.company)} · ${escHtml(job.location)}</div>
+          </div>
+          <span class="sd-job-badge">${escHtml(job.jobType)}</span>
+        </div>`;
+    });
+  }
+
+  if (!html) {
+    html = `<div class="sd-empty">No results for "<strong>${escHtml(q)}</strong>"<br><span style="font-size:0.72rem;color:var(--text-4)">Try a company name or skill like "Python" or "SOC"</span></div>`;
+  }
+
+  html += `<div class="sd-footer">↵ Enter to filter all jobs · Esc to close</div>`;
+  dropdown.innerHTML = html;
+}
+
+/* ─── Company card with Claude AI lookup ─── */
+function renderCompanyCard(q, dropdown) {
+  // Find best matching company name from jobs list
+  const lower = q.toLowerCase();
+  const matched = state.jobs.find(j => j.company.toLowerCase().includes(lower));
+  const companyName = matched ? matched.company : q;
+  const jobCount = state.jobs.filter(j => j.company.toLowerCase().includes(lower)).length;
+
+  // Show skeleton immediately
+  dropdown.innerHTML = `
+    <div class="sd-section-label">🏢 Company Lookup</div>
+    <div class="sd-company-card">
+      <div class="sd-company-header">
+        <div class="sd-company-logo">${escHtml(companyName.slice(0,2).toUpperCase())}</div>
+        <div>
+          <div class="sd-company-name">${escHtml(companyName)}</div>
+          <div class="sd-company-type">${jobCount > 0 ? jobCount + ' open role' + (jobCount > 1 ? 's' : '') + ' on CyFresh' : 'External company'}</div>
+        </div>
+      </div>
+      <div class="sd-company-desc loading" id="sdCompanyDesc">
+        <div class="sd-spinner"></div> Looking up company info...
+      </div>
+      <div class="sd-company-links" id="sdCompanyLinks"></div>
+    </div>
+    ${jobCount > 0 ? `<div class="sd-section-label">💼 Open Roles at ${escHtml(companyName)}</div>` + state.jobs.filter(j=>j.company.toLowerCase().includes(lower)).slice(0,4).map(job => `
+      <div class="sd-job-row" onclick="selectJobFromDropdown('${job.id}')">
+        <div class="sd-job-icon">${escHtml(job.companyShort)}</div>
+        <div class="sd-job-info">
+          <div class="sd-job-title">${escHtml(job.title)}</div>
+          <div class="sd-job-meta">${escHtml(job.location)} · ${escHtml(job.workMode)}</div>
+        </div>
+        <span class="sd-job-badge">${escHtml(job.jobType)}</span>
+      </div>`).join('') : ''}
+    <div class="sd-footer">Powered by CyFresh AI · Data may vary</div>
+  `;
+
+  // Fetch company info from Claude API (with cache)
+  if (companyFetchCache[companyName]) {
+    populateCompanyCard(companyFetchCache[companyName]);
+  } else {
+    fetchCompanyInfo(companyName);
+  }
+}
+
+async function fetchCompanyInfo(companyName) {
+  if (activeCompanyFetch === companyName) return;
+  activeCompanyFetch = companyName;
+
+  try {
+    const resp = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 600,
+        system: `You are a company research assistant for a cybersecurity job portal. 
+When given a company name, respond ONLY with a valid JSON object (no markdown, no backticks) with these exact fields:
+{
+  "name": "Official company name",
+  "type": "e.g. Cybersecurity Firm / IT Services / Consultancy / etc",
+  "founded": "Year or 'Unknown'",
+  "summary": "2-3 sentence description covering what the company does, their cybersecurity focus, and why it's a good place for freshers. Keep it under 60 words.",
+  "website": "https://... (official website URL, or null if unknown)",
+  "careers": "https://... (careers page URL, or null if unknown)",
+  "linkedin": "https://www.linkedin.com/company/... (LinkedIn company URL, or null if unknown)",
+  "headquarters": "City, Country or 'Unknown'"
+}
+Only return the JSON object, nothing else.`,
+        messages: [{ role: 'user', content: `Look up this company: ${companyName}` }]
+      })
+    });
+
+    if (!resp.ok) throw new Error('API error');
+    const data = await resp.json();
+    const text = data.content?.find(b => b.type === 'text')?.text || '';
+
+    // Strip any accidental markdown fences
+    const clean = text.replace(/```json|```/gi, '').trim();
+    const info = JSON.parse(clean);
+    companyFetchCache[companyName] = info;
+    if (activeCompanyFetch === companyName) populateCompanyCard(info);
+
+  } catch (e) {
+    const descEl = document.getElementById('sdCompanyDesc');
+    if (descEl) {
+      descEl.classList.remove('loading');
+      descEl.textContent = 'Could not load company info. Check your connection.';
+    }
+  } finally {
+    activeCompanyFetch = null;
+  }
+}
+
+function populateCompanyCard(info) {
+  const descEl = document.getElementById('sdCompanyDesc');
+  const linksEl = document.getElementById('sdCompanyLinks');
+  if (!descEl || !linksEl) return;
+
+  descEl.classList.remove('loading');
+  descEl.innerHTML = `
+    <div>${escHtml(info.summary || 'No description available.')}</div>
+    ${info.headquarters && info.headquarters !== 'Unknown' ? `<div style="margin-top:6px;font-size:0.71rem;color:var(--text-3)">📍 ${escHtml(info.headquarters)}${info.founded && info.founded !== 'Unknown' ? ' · Founded ' + escHtml(info.founded) : ''}</div>` : ''}
+  `;
+
+  const links = [];
+  if (info.website) links.push({ href: info.website, icon: '🌐', label: 'Website' });
+  if (info.careers) links.push({ href: info.careers, icon: '💼', label: 'Careers' });
+  if (info.linkedin) links.push({ href: info.linkedin, icon: '🔗', label: 'LinkedIn' });
+
+  if (links.length > 0) {
+    linksEl.innerHTML = links.map(l =>
+      `<a href="${escHtml(l.href)}" target="_blank" rel="noopener" class="sd-link">
+        <span class="sd-link-icon">${l.icon}</span>${l.label}
+        <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+      </a>`
+    ).join('');
+  } else {
+    linksEl.innerHTML = `<span style="font-size:0.72rem;color:var(--text-4)">No links found for this company.</span>`;
+  }
+}
+
+/* ─── Helpers ─── */
+function highlight(text, q) {
+  if (!q) return text;
+  const re = new RegExp(`(${q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')})`, 'gi');
+  return text.replace(re, '<mark style="background:rgba(255,140,66,0.25);color:var(--glow);border-radius:2px;padding:0 1px">$1</mark>');
+}
+
+function selectJobFromDropdown(jobId) {
+  closeSearchDropdown();
+  const job = state.jobs.find(j => j.id === jobId);
+  if (job) openModal(job);
+}
+
+function selectCompanyFromDropdown(companyName) {
+  document.getElementById('searchInput').value = companyName;
+  state.search = companyName;
+  render();
+  closeSearchDropdown();
+}
+
+// Close dropdown on outside click
+document.addEventListener('click', e => {
+  const wrap = document.querySelector('.search-wrap');
+  if (wrap && !wrap.contains(e.target)) closeSearchDropdown();
+});
 
 /* ══════════════════════════════════
    REFRESH
@@ -2861,12 +3253,14 @@ function manualRefresh() {
     btn.classList.remove('loading');
     btn.disabled = false;
     state.nextRefresh = Date.now() + REFRESH_INTERVAL;
+    saveState();
   });
 }
 
 function autoRefresh() {
   fetchAdzunaJobs().then(() => {
     state.nextRefresh = Date.now() + REFRESH_INTERVAL;
+    saveState();
     toast('🔄 Auto-refreshed with latest live jobs', 'success');
   });
 }
@@ -2904,6 +3298,8 @@ function showSkeletons() {
    TIMER
 ══════════════════════════════════ */
 function startTimer() {
+  let lastSavedMinute = -1;
+  let triggered = false;
   setInterval(() => {
     const rem = Math.max(0, state.nextRefresh - Date.now());
     const h = Math.floor(rem / 3600000);
@@ -2911,7 +3307,21 @@ function startTimer() {
     const s = Math.floor((rem % 60000) / 1000);
     const p = n => String(n).padStart(2, '0');
     document.getElementById('timerDisplay').textContent = `${p(h)}:${p(m)}:${p(s)}`;
-    if (rem === 0) autoRefresh();
+
+    // Persist nextRefresh once per minute to survive reloads mid-countdown
+    const currentMinute = Math.floor(rem / 60000);
+    if (currentMinute !== lastSavedMinute) {
+      lastSavedMinute = currentMinute;
+      saveState();
+    }
+
+    // Trigger auto-refresh when timer expires (use <= 0 not === 0 to never miss it)
+    if (rem <= 0 && !triggered) {
+      triggered = true;
+      autoRefresh();
+      // Reset guard after refresh completes
+      setTimeout(() => { triggered = false; }, 5000);
+    }
   }, 1000);
 }
 
@@ -3099,6 +3509,7 @@ async function fetchAdzunaJobs(appId = ADZUNA_APP_ID, appKey = ADZUNA_APP_KEY) {
 async function autoRefreshWithAPI() {
   await fetchAdzunaJobs();
   state.nextRefresh = Date.now() + REFRESH_INTERVAL;
+  saveState();
   toast('🔄 Auto-refreshed with latest live jobs', 'success');
 }
 
@@ -3526,8 +3937,9 @@ function escHtml(str) {
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') {
     closeModal();
+    closeSearchDropdown();
     const panel = document.getElementById('savedPanel');
-    if (panel.classList.contains('open')) toggleSaved();
+    if (panel && panel.classList.contains('open')) toggleSaved();
     if (drawerOpen) toggleDrawer();
   }
   if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
