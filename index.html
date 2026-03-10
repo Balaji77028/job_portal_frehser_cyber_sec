@@ -2311,48 +2311,97 @@ function r(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
 function ri(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
 function daysAgo(d) { const dt = new Date(); dt.setDate(dt.getDate() - d); return dt; }
 
+/* ══════════════════════════════════
+   SEEDED RANDOM — deterministic per day
+   Same seed → same jobs every reload
+══════════════════════════════════ */
+function makePrng(seed) {
+  // Mulberry32 — fast, good distribution
+  let s = seed >>> 0;
+  return function() {
+    s += 0x6D2B79F5;
+    let t = Math.imul(s ^ s >>> 15, 1 | s);
+    t ^= t + Math.imul(t ^ t >>> 7, 61 | t);
+    return ((t ^ t >>> 14) >>> 0) / 4294967296;
+  };
+}
+
+// Seed changes once per day — same within same calendar day
+function dailySeed() {
+  const d = new Date();
+  return (d.getFullYear() * 10000 + (d.getMonth() + 1) * 100 + d.getDate()) | 0;
+}
+
+let _seededRand = makePrng(dailySeed());
+
+function seededR(arr)         { return arr[Math.floor(_seededRand() * arr.length)]; }
+function seededRi(min, max)   { return Math.floor(_seededRand() * (max - min + 1)) + min; }
+
+// Unseeded — only for things that SHOULD vary (live API results etc.)
+function r(arr)   { return arr[Math.floor(Math.random() * arr.length)]; }
+function ri(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
+
 function generateJobs(count = 90) {
+  // Reset the seeded PRNG to the same daily seed each call so
+  // the same mock jobs appear on every reload within the same day
+  _seededRand = makePrng(dailySeed() ^ (count * 1000));
+
   const jobs = [];
-  const now = Date.now();
+  // Stable base timestamp — midnight today — so daysBack arithmetic is consistent
+  const midnight = new Date(); midnight.setHours(0,0,0,0);
+  const now = midnight.getTime();
+
   for (let i = 0; i < count; i++) {
-    const role = r(JOB_ROLES);
-    const company = r(COMPANIES);
-    const src = r(SOURCES);
-    const wm = r(WORK_MODES);
-    const isIntern = role.title.toLowerCase().includes('intern') || role.title.toLowerCase().includes('apprentice') || role.title.toLowerCase().includes('contract');
-    const jt = isIntern ? 'Internship' : r(['Full-time','Full-time','Full-time','Part-time']);
-    const region = company.r;
-    const location = wm === 'Remote' ? `Remote (${region === 'india' ? 'IN' : region === 'uk' ? 'UK' : 'US'})` : r(LOCATIONS[region]);
-    const daysBack = ri(0, 20);
+    const role    = seededR(JOB_ROLES);
+    const company = seededR(COMPANIES);
+    const src     = seededR(SOURCES);
+    const wm      = seededR(WORK_MODES);
+    const isIntern = role.title.toLowerCase().includes('intern') ||
+                     role.title.toLowerCase().includes('apprentice') ||
+                     role.title.toLowerCase().includes('contract');
+    const jt       = isIntern ? 'Internship' : seededR(['Full-time','Full-time','Full-time','Part-time']);
+    const region   = company.r;
+    const location = wm === 'Remote'
+      ? `Remote (${region === 'india' ? 'IN' : region === 'uk' ? 'UK' : 'US'})`
+      : seededR(LOCATIONS[region]);
+    const daysBack = seededRi(0, 20);
     const salGroup = SALARIES[region];
-    const salArr = salGroup[isIntern ? 'internship' : 'full-time'];
-    const salary = r(salArr);
-    const expReq = r(EXP_REQUIRED);
-    const descFn = r(DESC_TEMPLATES);
+    const salArr   = salGroup[isIntern ? 'internship' : 'full-time'];
+    const salary   = seededR(salArr);
+    const expReq   = seededR(EXP_REQUIRED);
+    const descFn   = seededR(DESC_TEMPLATES);
+
+    // Stable ID derived from seed index — same every reload
+    const stableId = `jb_${dailySeed()}_${count}_${i}`;
 
     jobs.push({
-      id: `jb_${now}_${i}_${Math.random().toString(36).slice(2,7)}`,
+      id: stableId,
       title: role.title,
       role: role.role,
-      tags: [...role.tags].sort(() => Math.random() - 0.5).slice(0, ri(3,5)),
-      company: company.n,
-      companyShort: company.l,
+      // Stable tag order — seeded shuffle
+      tags: [...role.tags].sort((a,b) => {
+        const ha = seededR([0,1,2,3,4,5,6,7,8,9]);
+        const hb = seededR([0,1,2,3,4,5,6,7,8,9]);
+        return ha - hb;
+      }).slice(0, seededRi(3,5)),
+      company:     company.n,
+      companyShort:company.l,
       companyTier: company.tier,
       region,
       location,
-      workMode: wm,
-      jobType: jt,
-      source: src,
+      workMode:    wm,
+      jobType:     jt,
+      source:      src,
       salary,
-      salaryNum: parseSalary(salary, region, jt),
+      salaryNum:   parseSalary(salary, region, jt),
       expRequired: expReq,
       daysBack,
-      postedDate: daysAgo(daysBack),
-      isNew: daysBack === 0,
-      isHot: daysBack <= 2 && company.tier === 'enterprise',
+      postedDate:  daysAgo(daysBack),
+      isNew:       daysBack === 0,
+      isHot:       daysBack <= 2 && company.tier === 'enterprise',
       description: descFn(role.title, company.n),
-      requirements: REQUIREMENTS,
-      applyUrl: buildApplyUrl(src, role.title, company.n),
+      requirements:REQUIREMENTS,
+      applyUrl:    buildApplyUrl(src, role.title, company.n),
     });
   }
   return jobs;
@@ -3441,6 +3490,9 @@ function saveApiKey() {
   fetchAdzunaJobs(id, key);
 }
 
+let _timerStarted = false;
+let _autoRefreshInterval = null;
+
 async function fetchAdzunaJobs(appId = ADZUNA_APP_ID, appKey = ADZUNA_APP_KEY) {
   showSkeletons();
   showProgress();
@@ -3479,7 +3531,6 @@ async function fetchAdzunaJobs(appId = ADZUNA_APP_ID, appKey = ADZUNA_APP_KEY) {
           if (seen.has(job.id)) continue;
           seen.add(job.id);
           const mapped = mapAdzunaJob(job, country.region);
-          // Only include roles that look fresher-relevant
           if (isFresherRole(mapped.title)) allResults.push(mapped);
         }
       } catch (_) { /* network error — skip silently */ }
@@ -3489,11 +3540,20 @@ async function fetchAdzunaJobs(appId = ADZUNA_APP_ID, appKey = ADZUNA_APP_KEY) {
   hideProgress();
 
   if (allResults.length > 0) {
-    // Blend live results with curated mock data to always show a full board
+    // Sort live results by date deterministically (newest first), then by id as tiebreaker
+    allResults.sort((a, b) => a.daysBack - b.daysBack || a.id.localeCompare(b.id));
+
+    // Generate stable mock pad — same jobs every reload for the same day
     const mockPad = generateJobs(Math.max(0, 80 - allResults.length));
-    state.jobs = [...allResults, ...mockPad];
+
+    // Deduplicate: if re-fetching, prefer live result over mock with same company+title
+    const liveKeys = new Set(allResults.map(j => `${j.company}|${j.title}`));
+    const filteredMock = mockPad.filter(j => !liveKeys.has(`${j.company}|${j.title}`));
+
+    state.jobs = [...allResults, ...filteredMock];
     toast(`🔴 Live: ${allResults.length} real jobs loaded from Adzuna!`, 'success');
   } else {
+    // All-mock board — fully stable across reloads for the same day
     state.jobs = generateJobs(96);
     toast('⚠️ No live results returned — showing curated board.', 'warning');
   }
@@ -3501,9 +3561,16 @@ async function fetchAdzunaJobs(appId = ADZUNA_APP_ID, appKey = ADZUNA_APP_KEY) {
   render();
   renderRoleFilters();
   updateAnnouncer();
-  startTimer();
   updateSavedUI();
-  setInterval(autoRefreshWithAPI, REFRESH_INTERVAL);
+
+  // Start timer and auto-refresh interval ONLY once — never stack duplicates
+  if (!_timerStarted) {
+    _timerStarted = true;
+    startTimer();
+  }
+  if (!_autoRefreshInterval) {
+    _autoRefreshInterval = setInterval(autoRefreshWithAPI, REFRESH_INTERVAL);
+  }
 }
 
 async function autoRefreshWithAPI() {
