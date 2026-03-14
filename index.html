@@ -406,6 +406,272 @@ body {
 /* ═══════════════════════════════════════════════
    PLATFORM TABS
 ═══════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════
+   RESUME SHORTLIST BANNER
+═══════════════════════════════════════════════ */
+.resume-banner {
+  position: relative; z-index: 1;
+  max-width: var(--max-w);
+  margin: 0 auto 0;
+  padding: 0 1.5rem 1.4rem;
+}
+
+.resume-banner-inner {
+  position: relative;
+  background: linear-gradient(135deg,
+    rgba(255,69,0,0.10) 0%,
+    rgba(255,140,66,0.06) 50%,
+    rgba(20,16,10,0.0) 100%
+  );
+  border: 1px solid rgba(255,107,26,0.28);
+  border-radius: var(--radius-lg);
+  padding: 1.4rem 1.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  overflow: hidden;
+}
+
+/* Ambient glow blob */
+.resume-banner-inner::before {
+  content: '';
+  position: absolute;
+  top: -40px; right: -40px;
+  width: 220px; height: 220px;
+  background: radial-gradient(circle, rgba(255,69,0,0.14) 0%, transparent 70%);
+  pointer-events: none;
+  border-radius: 50%;
+}
+
+/* Scan line animation */
+.resume-banner-inner::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 3px,
+    rgba(255,107,26,0.018) 3px,
+    rgba(255,107,26,0.018) 4px
+  );
+  pointer-events: none;
+}
+
+.rb-left {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  flex: 1;
+  min-width: 0;
+  position: relative; z-index: 1;
+}
+
+.rb-icon-wrap {
+  width: 54px; height: 54px;
+  background: linear-gradient(135deg, var(--fire), var(--warm));
+  border-radius: 14px;
+  display: grid; place-items: center;
+  flex-shrink: 0;
+  box-shadow: 0 4px 20px rgba(255,69,0,0.4), inset 0 1px 0 rgba(255,255,255,0.18);
+  animation: rbPulse 2.8s ease-in-out infinite;
+  position: relative;
+}
+
+@keyframes rbPulse {
+  0%, 100% { box-shadow: 0 4px 20px rgba(255,69,0,0.4), inset 0 1px 0 rgba(255,255,255,0.18); }
+  50% { box-shadow: 0 4px 28px rgba(255,140,66,0.6), inset 0 1px 0 rgba(255,255,255,0.18); }
+}
+
+.rb-icon-wrap svg { position: relative; z-index: 1; }
+
+.rb-text { min-width: 0; }
+
+.rb-eyebrow {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem;
+  color: var(--hot);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin-bottom: 4px;
+  display: flex; align-items: center; gap: 6px;
+}
+
+.rb-eyebrow::before {
+  content: '';
+  display: inline-block;
+  width: 18px; height: 2px;
+  background: linear-gradient(90deg, var(--fire), var(--warm));
+  border-radius: 2px;
+}
+
+.rb-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--text);
+  line-height: 1.25;
+  margin-bottom: 4px;
+}
+
+.rb-title .rb-highlight {
+  background: linear-gradient(90deg, var(--fire), var(--glow));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.rb-sub {
+  font-size: 0.8rem;
+  color: var(--text-3);
+  line-height: 1.45;
+}
+
+.rb-right {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  flex-shrink: 0;
+  position: relative; z-index: 1;
+}
+
+/* Circular score ring */
+.rb-score {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  flex-shrink: 0;
+}
+
+.rb-score-ring {
+  width: 62px; height: 62px;
+  position: relative;
+}
+
+.rb-score-ring svg {
+  width: 100%; height: 100%;
+  transform: rotate(-90deg);
+}
+
+.rb-score-ring .ring-bg {
+  fill: none;
+  stroke: rgba(255,107,26,0.12);
+  stroke-width: 4;
+}
+
+.rb-score-ring .ring-fill {
+  fill: none;
+  stroke: url(#rbGrad);
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-dasharray: 163;
+  stroke-dashoffset: 163;
+  animation: rbRingFill 2s 0.4s cubic-bezier(0.4,0,0.2,1) forwards;
+}
+
+@keyframes rbRingFill {
+  to { stroke-dashoffset: 40; } /* ~75% fill */
+}
+
+.rb-score-num {
+  position: absolute;
+  inset: 0;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  font-family: 'Syne', sans-serif;
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--glow);
+  line-height: 1;
+  transform: none; /* undo ring rotation */
+}
+
+.rb-score-num span {
+  font-size: 0.5rem;
+  color: var(--text-3);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.rb-score-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.58rem;
+  color: var(--text-4);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  text-align: center;
+}
+
+/* CTA button */
+.rb-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, var(--fire) 0%, var(--hot) 60%, var(--warm) 100%);
+  color: white;
+  border: none;
+  border-radius: var(--radius-md);
+  padding: 12px 22px;
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 0.88rem;
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: var(--transition);
+  box-shadow: 0 4px 18px rgba(255,69,0,0.38), inset 0 1px 0 rgba(255,255,255,0.18);
+  position: relative;
+  overflow: hidden;
+}
+
+.rb-cta::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.12) 0%, transparent 50%);
+  border-radius: inherit;
+}
+
+.rb-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(255,69,0,0.5), inset 0 1px 0 rgba(255,255,255,0.18);
+}
+
+.rb-cta:active { transform: translateY(0); }
+
+.rb-cta-icon { font-size: 1rem; }
+
+.rb-cta-text { display: flex; flex-direction: column; line-height: 1.2; }
+.rb-cta-text .rb-cta-main { font-size: 0.88rem; font-weight: 700; }
+.rb-cta-text .rb-cta-sub  { font-size: 0.65rem; font-weight: 500; opacity: 0.85; }
+
+.rb-cta-arrow {
+  width: 20px; height: 20px;
+  background: rgba(255,255,255,0.18);
+  border-radius: 50%;
+  display: grid; place-items: center;
+  flex-shrink: 0;
+  transition: transform 0.2s;
+}
+
+.rb-cta:hover .rb-cta-arrow { transform: translateX(2px); }
+
+/* Mobile */
+@media (max-width: 640px) {
+  .resume-banner-inner {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1.2rem 1.2rem;
+  }
+  .rb-right { width: 100%; justify-content: space-between; }
+  .rb-score { display: none; }
+  .rb-cta { flex: 1; justify-content: center; }
+  .resume-banner { padding: 0 1rem 1.2rem; }
+}
+
+/* ═══════════════════════════════════════════════
+   PLATFORM TABS
+═══════════════════════════════════════════════ */
 .platform-bar {
   position: relative; z-index: 1;
   max-width: var(--max-w);
@@ -1877,6 +2143,78 @@ footer {
   </div>
 </section>
 
+<!-- ═══ RESUME SHORTLIST BANNER ═══ -->
+<div class="resume-banner" aria-label="Test your resume shortlisting score">
+  <div class="resume-banner-inner">
+    <!-- SVG gradient def for ring -->
+    <svg width="0" height="0" style="position:absolute">
+      <defs>
+        <linearGradient id="rbGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%"   stop-color="#FF4500"/>
+          <stop offset="100%" stop-color="#FFB347"/>
+        </linearGradient>
+      </defs>
+    </svg>
+
+    <div class="rb-left">
+      <!-- Icon -->
+      <div class="rb-icon-wrap" aria-hidden="true">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+          <polyline points="14 2 14 8 20 8"/>
+          <line x1="16" y1="13" x2="8" y2="13"/>
+          <line x1="16" y1="17" x2="8" y2="17"/>
+          <polyline points="10 9 9 9 8 9"/>
+          <circle cx="17" cy="18" r="3" fill="rgba(255,255,255,0.2)" stroke="white" stroke-width="1.5"/>
+          <path d="M17 17v1l.5.5" stroke="white" stroke-width="1.5"/>
+        </svg>
+      </div>
+
+      <!-- Text -->
+      <div class="rb-text">
+        <div class="rb-eyebrow">AI Resume Scanner</div>
+        <div class="rb-title">
+          How well does your resume<br>
+          <span class="rb-highlight">match cybersecurity jobs?</span>
+        </div>
+        <div class="rb-sub">
+          Upload your resume and get an instant shortlisting score,<br>
+          skill gap analysis &amp; ATS compatibility check — free.
+        </div>
+      </div>
+    </div>
+
+    <div class="rb-right">
+      <!-- Animated score ring -->
+      <div class="rb-score" aria-hidden="true">
+        <div class="rb-score-ring">
+          <svg viewBox="0 0 56 56">
+            <circle class="ring-bg"   cx="28" cy="28" r="26"/>
+            <circle class="ring-fill" cx="28" cy="28" r="26"/>
+          </svg>
+          <div class="rb-score-num">
+            <span id="rbCounter">0</span>
+            <span>%</span>
+          </div>
+        </div>
+        <div class="rb-score-label">Avg score</div>
+      </div>
+
+      <!-- CTA -->
+      <a href="https://cyresumex.vercel.app/" target="_blank" rel="noopener" class="rb-cta" aria-label="Test your resume shortlisting score — opens CyResumeX in a new tab">
+        <span class="rb-cta-icon">📄</span>
+        <span class="rb-cta-text">
+          <span class="rb-cta-main">Test My Resume</span>
+          <span class="rb-cta-sub">Get shortlisting %</span>
+        </span>
+        <span class="rb-cta-arrow" aria-hidden="true">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </span>
+      </a>
+    </div>
+  </div>
+</div>
+
 <!-- ═══ API BANNER ═══ -->
 <div class="api-banner" id="apiBanner">
   <div class="api-banner-inner">
@@ -2701,10 +3039,10 @@ function updateCounts() {
     const el = document.getElementById('cnt-' + src);
     if (el) el.textContent = jobs.filter(j => j.source === src).length;
   });
-  document.getElementById('dcnt-24h').textContent = jobs.filter(j => j.daysBack <= 0).length;
-  document.getElementById('dcnt-3d').textContent = jobs.filter(j => j.daysBack <= 3).length;
-  document.getElementById('dcnt-7d').textContent = jobs.filter(j => j.daysBack <= 7).length;
-  document.getElementById('dcnt-14d').textContent = jobs.filter(j => j.daysBack <= 14).length;
+  document.getElementById('dcnt-24h').textContent  = jobs.filter(j => j.daysBack <= 1).length;
+  document.getElementById('dcnt-3d').textContent   = jobs.filter(j => j.daysBack <= 3).length;
+  document.getElementById('dcnt-7d').textContent   = jobs.filter(j => j.daysBack <= 7).length;
+  document.getElementById('dcnt-14d').textContent  = jobs.filter(j => j.daysBack <= 14).length;
 }
 
 function updateHeroStats() {
@@ -2956,7 +3294,20 @@ function updateSavedPanel() {
 /* ══════════════════════════════════
    FILTER ACTIONS
 ══════════════════════════════════ */
+/* ══════════════════════════════════
+   FILTER ACTIONS
+══════════════════════════════════ */
+
+// Clears lingering combo state without resetting all filters
+function clearComboState() {
+  state.activeCombo   = null;
+  state.comboRegion   = null;
+  state.comboWorkMode = null;
+  document.querySelectorAll('.combo-chip').forEach(c => c.classList.remove('active'));
+}
+
 function setSource(src, el) {
+  clearComboState();
   state.source = src;
   document.querySelectorAll('.ptab').forEach(t => { t.classList.remove('active'); t.setAttribute('aria-selected','false'); });
   el.classList.add('active'); el.setAttribute('aria-selected','true');
@@ -2964,6 +3315,7 @@ function setSource(src, el) {
 }
 
 function setType(type, el) {
+  clearComboState();
   if (!el) el = document.querySelector(`[data-f="${type}"]`);
   state.type = type;
   document.querySelectorAll('.fchip').forEach(c => c.classList.remove('active'));
@@ -2972,16 +3324,16 @@ function setType(type, el) {
 }
 
 function setDate(d, el) {
+  clearComboState();
   state.date = d;
-  // Only clear items inside the Date Posted card — not experience items
   document.querySelectorAll('#datePostedCard .sb-item').forEach(s => s.classList.remove('active'));
   el.classList.add('active');
   render();
 }
 
 function setExp(exp, el) {
+  clearComboState();
   state.exp = exp;
-  // Only clear items inside the Experience card
   document.querySelectorAll('#experienceCard .sb-item').forEach(s => s.classList.remove('active'));
   el.classList.add('active');
   render();
@@ -3003,12 +3355,14 @@ function setView(v) {
 }
 
 function toggleRoleFilter(role, checkbox) {
+  clearComboState();
   if (checkbox.checked) state.roleFilters.add(role);
   else state.roleFilters.delete(role);
   render();
 }
 
 function clearRoleFilters() {
+  clearComboState();
   state.roleFilters.clear();
   document.querySelectorAll('#roleFilters .sb-check').forEach(c => c.checked = false);
   render();
@@ -4018,6 +4372,42 @@ document.addEventListener('keydown', (e) => {
 /* ══════════════════════════════════
    INIT
 ══════════════════════════════════ */
+/* ══════════════════════════════════
+   RESUME BANNER — counter animation
+══════════════════════════════════ */
+(function() {
+  function startRbCounter() {
+    const el = document.getElementById('rbCounter');
+    if (!el || el._started) return;
+    el._started = true;
+    let n = 0;
+    const target = 75;
+    const dur = 1800;
+    const step = 16;
+    const inc = target / (dur / step);
+    const t = setInterval(() => {
+      n = Math.min(n + inc, target);
+      el.textContent = Math.round(n);
+      if (n >= target) clearInterval(t);
+    }, step);
+  }
+
+  // Use IntersectionObserver so it fires when banner scrolls into view
+  if ('IntersectionObserver' in window) {
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { startRbCounter(); obs.disconnect(); } });
+    }, { threshold: 0.3 });
+    // Observer attaches after DOM is ready
+    window.addEventListener('DOMContentLoaded', () => {
+      const banner = document.querySelector('.resume-banner-inner');
+      if (banner) obs.observe(banner);
+    });
+  } else {
+    // Fallback: just start after 800ms
+    setTimeout(startRbCounter, 800);
+  }
+})();
+
 function init() {
   loadState();
 
